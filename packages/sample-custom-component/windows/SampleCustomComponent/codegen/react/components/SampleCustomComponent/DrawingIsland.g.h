@@ -32,7 +32,7 @@ struct DrawingIslandProps : winrt::implements<DrawingIslandProps, winrt::Microso
     winrt::Microsoft::ReactNative::ReadProp(hash, propName, value, *this);
   }
 
-  const winrt::Microsoft::ReactNative::ViewProps ViewProps;
+  winrt::Microsoft::ReactNative::ViewProps m_props;
 };
 
 struct DrawingIslandEventEmitter {
