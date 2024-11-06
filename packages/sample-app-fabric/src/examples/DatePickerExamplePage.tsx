@@ -4,14 +4,14 @@ import React, {useState} from 'react';
 import {Example} from '../components/Example';
 import {Page} from '../components/Page';
 import {Text, View} from 'react-native';
-import XamlCalendarView from '../XamlCalendarViewNativeComponent';
+import DatePicker from '../DatePicker';
 
 export const DatePickerExamplePage: React.FunctionComponent<{}> = () => {
   const [date1] = useState(new Date());
   const [date2] = useState(new Date());
 
   const textExample1 =
-    '<DateTimePicker value={date} mode="date" style={{width: 200, opacity: 1, height: 50}}/>';
+    '<DatePicker value={date} mode="date" style={{width: 200, opacity: 1, height: 50}}/>';
   const textExample2 = `<DateTimePicker
   value={date2}
   mode="date"
@@ -42,7 +42,7 @@ export const DatePickerExamplePage: React.FunctionComponent<{}> = () => {
         <View style={{
             flexDirection: 'column'
             }}>
-            <XamlCalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  />
+            <DatePicker style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  />
         </View>
       </Example>
       <Example
@@ -51,7 +51,7 @@ export const DatePickerExamplePage: React.FunctionComponent<{}> = () => {
           <View style={{
             flexDirection: 'column'
             }}>
-            <XamlCalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  />
+            <DatePicker style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  />
         </View>
       </Example>
     </Page>

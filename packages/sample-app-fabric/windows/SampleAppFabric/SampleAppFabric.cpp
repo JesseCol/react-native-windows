@@ -114,6 +114,102 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
   winrt::Microsoft::UI::Xaml::XamlIsland m_xamlIsland{nullptr};
 };
 
+REACT_STRUCT(XamlDatePickerProps)
+struct XamlDatePickerProps : winrt::implements<XamlDatePickerProps, winrt::Microsoft::ReactNative::IComponentProps> {
+  XamlDatePickerProps(
+      winrt::Microsoft::ReactNative::ViewProps props,
+      const winrt::Microsoft::ReactNative::IComponentProps &cloneFrom)
+      : ViewProps(props) {
+    if (cloneFrom) {
+      auto cloneFromProps = cloneFrom.as<XamlDatePickerProps>();
+    }
+  }
+
+  void SetProp(uint32_t hash, winrt::hstring propName, winrt::Microsoft::ReactNative::IJSValueReader value) noexcept {
+    winrt::Microsoft::ReactNative::ReadProp(hash, propName, value, *this);
+  }
+
+  REACT_FIELD(label);
+  winrt::hstring label;
+
+  REACT_FIELD(xamlString);
+  winrt::hstring xamlString;
+
+  const winrt::Microsoft::ReactNative::ViewProps ViewProps;
+};
+
+struct XamlDatePicker : winrt::implements<XamlDatePicker, winrt::IInspectable> {
+  void Initialize(const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) {
+    m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
+
+    winrt::Microsoft::UI::Xaml::Controls::DatePicker picker{};
+    m_xamlIsland.Content(picker);
+    islandView.Connect(m_xamlIsland.ContentIsland());
+  }
+
+  void PropsChanged(
+      const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView & /*islandView*/,
+      const winrt::Microsoft::ReactNative::IComponentProps & /*newProps*/,
+      const winrt::Microsoft::ReactNative::IComponentProps & /*oldProps*/) {}
+
+  void FinalizeUpdates() noexcept {}
+
+  static void ConfigureBuilderForCustomComponent(
+      winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) {
+    builder.SetCreateProps([](winrt::Microsoft::ReactNative::ViewProps props,
+                              const winrt::Microsoft::ReactNative::IComponentProps &cloneFrom) noexcept {
+      return winrt::make<XamlDatePickerProps>(props, cloneFrom);
+    });
+
+    builder.SetFinalizeUpdateHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
+                                        winrt::Microsoft::ReactNative::ComponentViewUpdateMask /*mask*/) {
+      auto userData = source.UserData().as<XamlDatePicker>();
+      userData->FinalizeUpdates();
+    });
+
+    auto compBuilder = builder.as<winrt::Microsoft::ReactNative::Composition::IReactCompositionViewComponentBuilder>();
+
+    compBuilder.SetContentIslandComponentViewInitializer(
+        [](const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) noexcept {
+          auto userData = winrt::make_self<XamlDatePicker>();
+          userData->Initialize(islandView);
+          islandView.UserData(*userData);
+
+          islandView.Destroying([](const winrt::IInspectable &sender, const winrt::IInspectable & /*args*/) {
+            auto senderIslandView = sender.as<winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView>();
+            auto userData = senderIslandView.UserData().as<XamlDatePicker>();
+            userData->m_xamlIsland.Close();
+          });
+        });
+
+    builder.SetUpdateEventEmitterHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
+                                            const winrt::Microsoft::ReactNative::EventEmitter &eventEmitter) {
+      auto senderIslandView = source.as<winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView>();
+      auto userData = senderIslandView.UserData().as<XamlDatePicker>();
+    });
+
+    builder.SetUpdatePropsHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
+                                     const winrt::Microsoft::ReactNative::IComponentProps &newProps,
+                                     const winrt::Microsoft::ReactNative::IComponentProps &oldProps) {
+      auto senderIslandView = source.as<winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView>();
+      auto userData = senderIslandView.UserData().as<XamlDatePicker>();
+      userData->PropsChanged(senderIslandView, newProps, oldProps);
+    });
+
+    builder.SetUpdateStateHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
+                                     const winrt::Microsoft::ReactNative::IComponentState &newState) {
+      auto senderIslandView = source.as<winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView>();
+      auto userData = senderIslandView.UserData().as<XamlDatePicker>();
+      userData->m_state = newState;
+    });
+  }
+
+ private:
+  winrt::Microsoft::UI::Xaml::Controls::TextBlock m_buttonLabelTextBlock{nullptr};
+  winrt::Microsoft::ReactNative::IComponentState m_state;
+  winrt::Microsoft::UI::Xaml::XamlIsland m_xamlIsland{nullptr};
+};
+
 // A PackageProvider containing any turbo modules you define within this app project
 struct CompReactPackageProvider
     : winrt::implements<CompReactPackageProvider, winrt::Microsoft::ReactNative::IReactPackageProvider> {
@@ -124,6 +220,11 @@ struct CompReactPackageProvider
     packageBuilder.as<winrt::Microsoft::ReactNative::IReactPackageBuilderFabric>().AddViewComponent(
         L"XamlCalendarView", [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
           XamlCalendarComponent::ConfigureBuilderForCustomComponent(builder);
+        });
+
+    packageBuilder.as<winrt::Microsoft::ReactNative::IReactPackageBuilderFabric>().AddViewComponent(
+        L"DatePicker", [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
+          XamlDatePicker::ConfigureBuilderForCustomComponent(builder);
         });
   }
 };
@@ -147,10 +248,12 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   auto dqc = winrt::Microsoft::UI::Dispatching::DispatcherQueueController::CreateOnCurrentThread();
 
   auto xamlApp{winrt::make<winrt::SampleAppFabric::implementation::App>()};
+  winrt::Microsoft::UI::Xaml::Hosting::WindowsXamlManager::GetForCurrentThread().IsCompositorImplicitCommit(true);
   auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
   builder.SetDispatcherQueueController(dqc);
   builder.SetCompositor(compositor);
 
+#ifdef USE_EXPLICIT_COMMIT_COMPOSITOR_HACK
   auto timer = dqc.DispatcherQueue().CreateTimer();
   timer.Interval(std::chrono::milliseconds(16));
   timer.Tick([compositor](auto &&, auto &&) {
@@ -158,6 +261,7 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
     dcompDevice->Commit();
   });
   timer.Start();
+ #endif
 
   auto reactNativeWin32App{builder.Build()};
 

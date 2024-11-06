@@ -90,13 +90,12 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
     islandView;
 #ifdef USE_EXPERIMENTAL_WINUI3
     m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
-    //m_xamlIsland.Content(CreateXamlButtonContent(nativeLayout));
+    // m_xamlIsland.Content(CreateXamlButtonContent(nativeLayout));
     islandView.Connect(m_xamlIsland.ContentIsland());
 #endif
   }
 
-  void UpdateXamlContent()
-  {
+  void UpdateXamlContent() {
     const wchar_t *prefix = L"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>";
     const wchar_t *postfix = L"</Grid>";
 
@@ -121,7 +120,6 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
       UpdateXamlContent();
     }
 #endif
-
   }
 
   void FinalizeUpdates() noexcept {
@@ -145,12 +143,12 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
     // of the XAML element.
     if (!nativeLayout) {
       winrt::Microsoft::UI::Xaml::Controls::Grid grid{};
-      //grid.Background(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush({255, 124, 124, 255}));
-      
-      //grid.Children().Append(button);
+      // grid.Background(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush({255, 124, 124, 255}));
+
+      // grid.Children().Append(button);
 
       // winrt::Microsoft::UI::Xaml::Controls::CalendarView cv{};
-      //grid.Children().Append(cv);
+      // grid.Children().Append(cv);
       return grid;
     }
 
@@ -268,10 +266,8 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
 #endif
 };
 
-
 struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::IInspectable> {
-  void Initialize(
-      const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) {
+  void Initialize(const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) {
     m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
 
     winrt::Microsoft::UI::Xaml::Controls::CalendarView cv{};
@@ -282,8 +278,7 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
   void PropsChanged(
       const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView & /*islandView*/,
       const winrt::Microsoft::ReactNative::IComponentProps & /*newProps*/,
-      const winrt::Microsoft::ReactNative::IComponentProps & /*oldProps*/) {
-  }
+      const winrt::Microsoft::ReactNative::IComponentProps & /*oldProps*/) {}
 
   void FinalizeUpdates() noexcept {
     if (m_eventEmitter) {
@@ -295,8 +290,9 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
 
   static void ConfigureBuilderForCustomComponent(
       winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) {
-    builder.SetCreateProps([](winrt::Microsoft::ReactNative::ViewProps props) noexcept {
-      return winrt::make<CustomXamlComponentProps>(props);
+    builder.SetCreateProps([](winrt::Microsoft::ReactNative::ViewProps props,
+                              const winrt::Microsoft::ReactNative::IComponentProps &cloneFrom) noexcept {
+      return winrt::make<DrawingIslandProps>(props, cloneFrom);
     });
 
     builder.SetFinalizeUpdateHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
@@ -308,8 +304,7 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
     auto compBuilder = builder.as<winrt::Microsoft::ReactNative::Composition::IReactCompositionViewComponentBuilder>();
 
     compBuilder.SetContentIslandComponentViewInitializer(
-        [](
-            const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) noexcept {
+        [](const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) noexcept {
           auto userData = winrt::make_self<XamlCalendarComponent>();
           userData->Initialize(islandView);
           islandView.UserData(*userData);
@@ -351,8 +346,6 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
   winrt::Microsoft::UI::Xaml::XamlIsland m_xamlIsland{nullptr};
 };
 
-
-
 static void RegisterViewComponent(winrt::Microsoft::ReactNative::IReactPackageBuilder const &packageBuilder) {
   packageBuilder.as<winrt::Microsoft::ReactNative::IReactPackageBuilderFabric>().AddViewComponent(
       L"CustomXamlComponentWithNativeLayout",
@@ -367,8 +360,7 @@ static void RegisterViewComponent(winrt::Microsoft::ReactNative::IReactPackageBu
       });
 
   packageBuilder.as<winrt::Microsoft::ReactNative::IReactPackageBuilderFabric>().AddViewComponent(
-      L"XamlCalendarView",
-      [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
+      L"XamlCalendarView", [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
         XamlCalendarComponent::ConfigureBuilderForCustomComponent(builder);
       });
 }
