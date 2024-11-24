@@ -6,6 +6,7 @@
 #include <Unicode.h>
 #include "RootComponentView.h"
 #include "UiaHelpers.h"
+#include <winrt/Microsoft.UI.Content.h>
 
 namespace winrt::Microsoft::ReactNative::implementation {
 
@@ -393,6 +394,13 @@ HRESULT __stdcall CompositionDynamicAutomationProvider::get_HostRawElementProvid
     return E_POINTER;
 
   *pRetVal = nullptr;
+
+  /*
+  auto parentContentIsland =
+      m_view.view().as<winrt::Microsoft::ReactNative::Composition::implementation::ComponentView>()->TryGetParentIsland();
+  if (parentContentIsland) {
+    parentContentIsland.GetAutomationHostProvider().as<IRawElementProviderSimple>().copy_to(pRetVal);
+  }*/
 
   return S_OK;
 }

@@ -39,7 +39,47 @@ void ContentIslandComponentView::OnMounted() noexcept {
       rootComponentView()->parentContentIsland(),
       winrt::Microsoft::ReactNative::Composition::Experimental::CompositionContextHelper::InnerVisual(Visual())
           .as<winrt::Microsoft::UI::Composition::ContainerVisual>());
+
   m_childContentLink.ActualSize({m_layoutMetrics.frame.size.width, m_layoutMetrics.frame.size.height});
+
+  m_childContentLink.AutomationOption(winrt::Microsoft::UI::Content::AutomationOptions::NavigatableFragment);
+  m_childContentLink.FragmentRootAutomationProviderRequested(
+      [this](
+          const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &sender,
+          const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
+        // args.AutomationProvider();
+
+        ::OutputDebugString(L"Jesse: FragmentRootAutomationProviderRequested.\n");
+
+        winrt::com_ptr<IRawElementProviderFragmentRoot> fragmentRoot;
+
+        this->rootComponentView()->GetFragmentRoot(fragmentRoot.put());
+        args.AutomationProvider(fragmentRoot.as<IInspectable>());
+        args.Handled(true);
+        (void)sender;
+      });
+
+  m_childContentLink.ParentAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
+        // args.AutomationProvider();
+        ::OutputDebugString(L"Jesse: ParentAutomationProviderRequested.\n");
+      });
+
+  m_childContentLink.NextSiblingAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
+        // args.AutomationProvider();
+        ::OutputDebugString(L"Jesse: NextSiblingAutomationProviderRequested.\n");
+      });
+
+  m_childContentLink.PreviousSiblingAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
+        // args.AutomationProvider();
+        ::OutputDebugString(L"Jesse: PreviousSiblingAutomationProviderRequested.\n");
+      });
+
   if (m_islandToConnect) {
     m_childContentLink.Connect(m_islandToConnect);
     m_islandToConnect = nullptr;
@@ -129,5 +169,30 @@ void ContentIslandComponentView::Connect(const winrt::Microsoft::UI::Content::Co
 void ContentIslandComponentView::prepareForRecycle() noexcept {
   Super::prepareForRecycle();
 }
+
+winrt::IInspectable ContentIslandComponentView::TryGetChildUiaProvider() noexcept {
+  if (m_childContentLink) {
+    return m_childContentLink.AutomationProvider();
+  }
+  return nullptr;
+}
+
+winrt::Microsoft::UI::Content::ContentIsland ContentIslandComponentView::TryGetParentIsland() noexcept {
+  if (m_childContentLink) {
+    //return rootComponentView()->parentContentIsland();
+    return rootComponentView()->parentContentIsland();
+  }
+  return nullptr;
+}
+
+/*
+winrt::IInspectable ContentIslandComponentView::EnsureUiaProvider() noexcept {
+  ::OutputDebugString(L"Jesse: I am printf debugging.\n");
+  // return m_islandToConnect.FragmentRootAutomationProvider();
+  // return m_childContentLink.AutomationProvider();
+  return
+winrt::make<winrt::Microsoft::ReactNative::implementation::ContentIslandComponentViewAutomationProvider>(*this->get_strong());
+}
+*/
 
 } // namespace winrt::Microsoft::ReactNative::Composition::implementation

@@ -21,6 +21,20 @@
 
 #include "App.xaml.h"
 
+struct XamlHelper
+{
+  winrt::Microsoft::UI::Xaml::XamlIsland CreateXamlIsland()
+  {
+    if (!m_app) {
+      m_app = winrt::make<winrt::SampleAppFabric::implementation::App>();
+    }
+    return winrt::Microsoft::UI::Xaml::XamlIsland{};
+  } 
+
+  winrt::Microsoft::UI::Xaml::Application m_app{nullptr};
+} g_xamlHelper;
+
+
 REACT_STRUCT(CustomXamlComponentProps)
 struct CustomXamlComponentProps
     : winrt::implements<CustomXamlComponentProps, winrt::Microsoft::ReactNative::IComponentProps> {
@@ -78,7 +92,7 @@ struct CustomXamlComponentEventEmitter {
 
 struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::IInspectable> {
   void Initialize(const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) {
-    m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
+    m_xamlIsland = g_xamlHelper.CreateXamlIsland();
 
     m_calendarView = winrt::Microsoft::UI::Xaml::Controls::CalendarView{};
     m_xamlIsland.Content(m_calendarView);
@@ -88,6 +102,11 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
           if (m_eventEmitter) {
             OnSelectedDatesChanged args;
             args.value = false;
+
+            if (m_calendarView.SelectedDates().Size() == 0)
+            {
+              return;
+            }
 
             auto selectedDate = m_calendarView.SelectedDates().GetAt(0);
             auto tt = winrt::clock::to_time_t(selectedDate);
@@ -144,6 +163,7 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
             auto senderIslandView = sender.as<winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView>();
             auto userData = senderIslandView.UserData().as<XamlCalendarComponent>();
             userData->m_xamlIsland.Close();
+            userData->m_xamlIsland = nullptr;
           });
         });
 
@@ -210,18 +230,13 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
 
   auto dqc = winrt::Microsoft::UI::Dispatching::DispatcherQueueController::CreateOnCurrentThread();
 
-  auto xamlApp{winrt::make<winrt::SampleAppFabric::implementation::App>()};
-  auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+  // This is an experimental Xaml API that allows us to get an implicit-commit Composistor from Xaml
+  // before it starts up.
+  auto compositor =
+    winrt::Microsoft::UI::Xaml::Media::CompositionTarget::EnsureImplicitCommitCompositorForCurrentThread();
+
   builder.SetDispatcherQueueController(dqc);
   builder.SetCompositor(compositor);
-
-  auto timer = dqc.DispatcherQueue().CreateTimer();
-  timer.Interval(std::chrono::milliseconds(16));
-  timer.Tick([compositor](auto &&, auto &&) {
-    auto dcompDevice = compositor.as<IDCompositionDevice>();
-    dcompDevice->Commit();
-  });
-  timer.Start();
 
   auto reactNativeWin32App{builder.Build()};
 

@@ -61,4 +61,5 @@ class CompositionDynamicAutomationProvider : public winrt::implements<
   ::Microsoft::ReactNative::ReactTaggedView m_view;
 };
 
+
 } // namespace winrt::Microsoft::ReactNative::implementation

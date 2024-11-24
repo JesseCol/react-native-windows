@@ -356,7 +356,7 @@ export default function App() {
 
   return (
     <AppContext.Provider value={{showHome, setShowHome}}>
-      {showHome ? <HomePage/> : <DatePickerExamplePage/>}
+      {showHome ? <DatePickerExamplePage/> : <DatePickerExamplePage/>}
     </AppContext.Provider>
   );
 }

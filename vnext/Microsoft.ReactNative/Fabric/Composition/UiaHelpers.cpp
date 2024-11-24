@@ -46,12 +46,19 @@ HRESULT UiaNavigateHelper(
       __fallthrough;
 
     case NavigateDirection_FirstChild: {
-      auto children = view.Children();
-      auto index = direction == NavigateDirection_FirstChild ? 0 : children.Size() - 1;
-      if (!children.Size() == 0) {
-        uiaProvider = children.GetAt(index)
-                          .as<winrt::Microsoft::ReactNative::Composition::implementation::ComponentView>()
-                          ->EnsureUiaProvider();
+      auto childProvider = view.as<winrt::Microsoft::ReactNative::Composition::implementation::ComponentView>()
+                               ->TryGetChildUiaProvider();
+
+      if (childProvider != nullptr) {
+        uiaProvider = childProvider;
+      } else {
+        auto children = view.Children();
+        auto index = direction == NavigateDirection_FirstChild ? 0 : children.Size() - 1;
+        if (!children.Size() == 0) {
+          uiaProvider = children.GetAt(index)
+                            .as<winrt::Microsoft::ReactNative::Composition::implementation::ComponentView>()
+                            ->EnsureUiaProvider();
+        }
       }
     } break;
 

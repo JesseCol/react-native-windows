@@ -188,6 +188,5 @@ void ReactNativeWin32App::Start() {
   // know the message loop has finished.
   m_dispatcherQueueController.ShutdownQueue();
 
-  m_desktopChildSiteBridge.Close();
 }
 } // namespace winrt::Microsoft::ReactNative::implementation

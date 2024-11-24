@@ -741,7 +741,8 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   auto playgroundApp{winrt::make<winrt::Playground::implementation::App>()};
 
   // When using XamlIslands, we need to share Xaml's Compositor.
-  g_liftedCompositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+  //g_liftedCompositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+  //g_liftedCompositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
 #else
   g_liftedCompositor = winrt::Microsoft::UI::Composition::Compositor();
 #endif

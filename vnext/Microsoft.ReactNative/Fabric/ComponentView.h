@@ -204,6 +204,12 @@ struct ComponentView
   virtual facebook::react::Tag
   hitTest(facebook::react::Point pt, facebook::react::Point &localPt, bool ignorePointerEvents = false) const noexcept;
   virtual winrt::IInspectable EnsureUiaProvider() noexcept;
+  virtual winrt::IInspectable TryGetChildUiaProvider() noexcept {
+    return nullptr;
+  }
+  virtual winrt::Microsoft::UI::Content::ContentIsland TryGetParentIsland() noexcept {
+    return nullptr;
+  }
   virtual std::optional<std::string> getAccessiblityValue() noexcept;
   virtual void setAcccessiblityValue(std::string &&value) noexcept;
   virtual bool getAcccessiblityIsReadOnly() noexcept;

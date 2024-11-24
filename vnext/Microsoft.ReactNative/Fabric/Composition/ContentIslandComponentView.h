@@ -37,6 +37,11 @@ struct ContentIslandComponentView : ContentIslandComponentViewT<ContentIslandCom
 
   void prepareForRecycle() noexcept override;
 
+  // winrt::IInspectable EnsureUiaProvider() noexcept override;
+  winrt::IInspectable TryGetChildUiaProvider() noexcept override;
+
+  winrt::Microsoft::UI::Content::ContentIsland TryGetParentIsland() noexcept override;
+
   ContentIslandComponentView(
       const winrt::Microsoft::ReactNative::Composition::Experimental::ICompositionContext &compContext,
       facebook::react::Tag tag,

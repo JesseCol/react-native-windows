@@ -47,17 +47,8 @@ export const DatePickerExamplePage: React.FunctionComponent<{}> = () => {
             }}>
             <CalendarView
               style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  
-              onSelectedDatesChanged={onSelectedDatesChanged}
+             
             />
-        </View>
-      </Example>
-      <Example
-        title="A CalendarView with day of week formatted and first day of week adjusted."
-        code={textExample2}>
-          <View style={{
-            flexDirection: 'column'
-            }}>
-            <CalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  />
         </View>
       </Example>
     </Page>
