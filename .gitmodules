@@ -1,0 +1,4 @@
+[submodule "microsoft-ui-xaml-lift"]
+	path = microsoft-ui-xaml-lift
+	url = https://microsoft.visualstudio.com/DefaultCollection/WinUI/_git/microsoft-ui-xaml-lift
+	branch = feature/fabric-xaml
