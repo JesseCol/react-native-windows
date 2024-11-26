@@ -738,15 +738,18 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   g_liftedDispatcherQueueController =
       winrt::Microsoft::UI::Dispatching::DispatcherQueueController::CreateOnCurrentThread();
 
-  g_liftedCompositor =
-      winrt::Microsoft::UI::Xaml::Media::CompositionTarget::EnsureImplicitCommitCompositorForCurrentThread();
-
 // We only want to init XAML if we are using XAML islands
 #ifdef USE_EXPERIMENTAL_WINUI3
   // Island-support: Create our custom Xaml App object. This is needed to properly use the controls and metadata
   // in Microsoft.ui.xaml.controls.dll.
   auto playgroundApp{winrt::make<winrt::Playground::implementation::App>()};
+
+  g_liftedCompositor =
+      winrt::Microsoft::UI::Xaml::Media::CompositionTarget::EnsureImplicitCommitCompositorForCurrentThread();
+#else
+  g_liftedCompositor = winrt::Microsoft::UI::Composition::Compositor();
 #endif
+
 
   return RunPlayground(showCmd, false);
 }
