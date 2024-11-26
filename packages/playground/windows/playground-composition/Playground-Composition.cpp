@@ -32,6 +32,7 @@
 #include <winrt/Microsoft.UI.Content.h>
 #include <winrt/Microsoft.UI.Windowing.h>
 #include <winrt/Microsoft.UI.interop.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 
 // Includes from sample-custom-component
 #include <winrt/SampleCustomComponent.h>
@@ -733,13 +734,15 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   // Microsoft.UI.Composition, Content, and Input APIs.
   g_liftedDispatcherQueueController =
       winrt::Microsoft::UI::Dispatching::DispatcherQueueController::CreateOnCurrentThread();
-  g_liftedCompositor = winrt::Microsoft::UI::Composition::Compositor();
+
+  g_liftedCompositor =
+      winrt::Microsoft::UI::Xaml::Media::CompositionTarget::EnsureImplicitCommitCompositorForCurrentThread();
 
 // We only want to init XAML if we are using XAML islands
 #ifdef USE_EXPERIMENTAL_WINUI3
   // Island-support: Create our custom Xaml App object. This is needed to properly use the controls and metadata
   // in Microsoft.ui.xaml.controls.dll.
-  // auto playgroundApp{winrt::make<winrt::Playground::implementation::App>()};
+  auto playgroundApp{winrt::make<winrt::Playground::implementation::App>()};
 #endif
 
   return RunPlayground(showCmd, false);
