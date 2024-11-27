@@ -10,7 +10,6 @@ pushd microsoft-ui-xaml-lift
 
 $cmd = ".\pack.cmd /version $version"
 Write-Host "Running: $cmd"
-#Invoke-Expression $cmd
 
 cmd.exe /c $cmd 
 
