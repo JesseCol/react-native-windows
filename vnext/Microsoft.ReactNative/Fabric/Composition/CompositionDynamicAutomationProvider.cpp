@@ -6,6 +6,7 @@
 #include <Unicode.h>
 #include "RootComponentView.h"
 #include "UiaHelpers.h"
+#include <winrt/Microsoft.UI.Content.h>
 
 namespace winrt::Microsoft::ReactNative::implementation {
 
@@ -27,11 +28,63 @@ CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
   }
 }
 
+CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
+      const winrt::Microsoft::ReactNative::Composition::ComponentView &componentView,
+      const winrt::Microsoft::UI::Content::ChildContentLink &childContentLink) noexcept
+      : m_view{componentView}
+      , m_childContentLink{childContentLink} {
+
+  // TODO: We need to revoke these event handlers when we're done.  
+  
+  m_childContentLink.AutomationOption(winrt::Microsoft::UI::Content::AutomationOptions::NavigatableFragment);
+  m_childContentLink.FragmentRootAutomationProviderRequested(
+      [this](
+          const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &sender,
+          const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
+
+        // The child island's fragment tree doesn't have its own root.
+        // Here's how we can provide the correct root to the child's UIA logic.
+        winrt::com_ptr<IRawElementProviderFragmentRoot> fragmentRoot = nullptr;
+        HRESULT hr = this->get_FragmentRoot(fragmentRoot.put());
+        args.AutomationProvider(fragmentRoot.as<IInspectable>());
+        args.Handled(true);
+        (void)sender;
+      });
+
+  m_childContentLink.ParentAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
+          // TODO
+      });
+
+  m_childContentLink.NextSiblingAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
+          // TODO
+      });
+
+  m_childContentLink.PreviousSiblingAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
+        // TODO
+      });
+
+
+}
+
 HRESULT __stdcall CompositionDynamicAutomationProvider::Navigate(
     NavigateDirection direction,
     IRawElementProviderFragment **pRetVal) {
   if (pRetVal == nullptr)
     return E_POINTER;
+
+  if (m_childContentLink) {
+    if (direction == NavigateDirection_FirstChild || direction == NavigateDirection_LastChild) {      
+      auto fragment = m_childContentLink.AutomationProvider().try_as<IRawElementProviderFragment>();
+      *pRetVal = fragment.detach();
+      return S_OK;
+    }
+  }
 
   return UiaNavigateHelper(m_view.view(), direction, *pRetVal);
 }
