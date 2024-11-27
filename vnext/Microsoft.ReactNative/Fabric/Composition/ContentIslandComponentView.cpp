@@ -17,6 +17,8 @@
 
 #include "Composition.ContentIslandComponentView.g.cpp"
 
+#include "CompositionDynamicAutomationProvider.h"
+
 namespace winrt::Microsoft::ReactNative::Composition::implementation {
 
 ContentIslandComponentView::ContentIslandComponentView(
@@ -137,6 +139,15 @@ void ContentIslandComponentView::Connect(const winrt::Microsoft::UI::Content::Co
 
 void ContentIslandComponentView::prepareForRecycle() noexcept {
   Super::prepareForRecycle();
+}
+
+winrt::IInspectable ContentIslandComponentView::EnsureUiaProvider() noexcept {
+  if (m_uiaProvider == nullptr) {
+    m_uiaProvider =
+        winrt::make<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>(
+          *get_strong(), m_childContentLink);
+  }
+  return m_uiaProvider;
 }
 
 } // namespace winrt::Microsoft::ReactNative::Composition::implementation
