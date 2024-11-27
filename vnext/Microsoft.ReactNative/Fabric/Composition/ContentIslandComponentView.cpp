@@ -17,6 +17,8 @@
 
 #include "Composition.ContentIslandComponentView.g.cpp"
 
+#include "CompositionDynamicAutomationProvider.h"
+
 namespace winrt::Microsoft::ReactNative::Composition::implementation {
 
 ContentIslandComponentView::ContentIslandComponentView(
@@ -40,6 +42,12 @@ void ContentIslandComponentView::OnMounted() noexcept {
       winrt::Microsoft::ReactNative::Composition::Experimental::CompositionContextHelper::InnerVisual(Visual())
           .as<winrt::Microsoft::UI::Composition::ContainerVisual>());
   m_childContentLink.ActualSize({m_layoutMetrics.frame.size.width, m_layoutMetrics.frame.size.height});
+
+  // Why are we already creating the UiaProvider?  This call will
+  // set up the ChildContentLink's automation mode and  event handlers.
+  // Can we defer this?
+  (void)EnsureUiaProvider();
+
   if (m_islandToConnect) {
     m_childContentLink.Connect(m_islandToConnect);
     m_islandToConnect = nullptr;
@@ -128,6 +136,15 @@ void ContentIslandComponentView::Connect(const winrt::Microsoft::UI::Content::Co
 
 void ContentIslandComponentView::prepareForRecycle() noexcept {
   Super::prepareForRecycle();
+}
+
+winrt::IInspectable ContentIslandComponentView::EnsureUiaProvider() noexcept {
+  if (m_uiaProvider == nullptr) {
+    m_uiaProvider =
+        winrt::make<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>(
+          *get_strong(), m_childContentLink);
+  }
+  return m_uiaProvider;
 }
 
 } // namespace winrt::Microsoft::ReactNative::Composition::implementation

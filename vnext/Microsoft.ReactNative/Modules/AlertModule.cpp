@@ -220,15 +220,17 @@ void Alert::ProcessPendingAlertRequests() noexcept {
   if (pendingAlerts.empty())
     return;
 
+#ifndef USE_FABRIC
+  // Xaml ContentDialog doesn't work for us in Fabric, only use it for Paper.
   if (xaml::TryGetCurrentApplication()) {
     ProcessPendingAlertRequestsXaml();
   }
-#ifdef USE_FABRIC
-  else {
+  else 
+#endif
+  {
     // If we don't have xaml loaded, fallback to using MessageDialog
     ProcessPendingAlertRequestsMessageDialog();
   }
-#endif
 }
 Alert::Constants Alert::GetConstants() noexcept {
   return m_constants;
