@@ -28,9 +28,9 @@
       },
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241127.1346-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241127.1346-x64-Debug",
-        "contentHash": "IXPy9DtMuWr8w70CSRZXZ2UiQdz+a5vyeplU8WnZJiCjKQsXpWFkoI422rxavGyNH1v1PTx+4CcagEs8TtLE/w==",
+        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
+        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -88,7 +88,7 @@
           "Folly": "[1.0.0, )",
           "Microsoft.JavaScript.Hermes": "[0.1.23, )",
           "Microsoft.SourceLink.GitHub": "[1.1.1, )",
-          "Microsoft.WindowsAppSDK": "[999.0.0-mock-11.241127.1346-x64-Debug, )",
+          "Microsoft.WindowsAppSDK": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
           "ReactCommon": "[1.0.0, )",
           "boost": "[1.83.0, )"
         }
@@ -105,7 +105,7 @@
         "dependencies": {
           "Microsoft.ReactNative": "[1.0.0, )",
           "Microsoft.VCRTForwarders.140": "[1.0.2-rc, )",
-          "Microsoft.WindowsAppSDK": "[999.0.0-mock-11.241127.1346-x64-Debug, )",
+          "Microsoft.WindowsAppSDK": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
           "boost": "[1.83.0, )"
         }
       }

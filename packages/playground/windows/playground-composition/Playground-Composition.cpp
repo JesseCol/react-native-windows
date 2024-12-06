@@ -635,7 +635,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) 
       break;
     }
     case WM_GETOBJECT: {
-      if (!windowData->m_useLiftedComposition && lparam == UiaRootObjectId) {
+      if (windowData && !windowData->m_useLiftedComposition && lparam == UiaRootObjectId) {
         if (windowData == nullptr || !windowData->m_compRootView)
           break;
 
@@ -649,10 +649,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) 
       }
     }
     case WM_WINDOWPOSCHANGED: {
-      windowData->UpdateSize(hwnd);
+      if (windowData != nullptr) {
+        windowData->UpdateSize(hwnd);
 
-      winrt::Microsoft::ReactNative::ReactNotificationService rns(windowData->InstanceSettings().Notifications());
-      winrt::Microsoft::ReactNative::ForwardWindowMessage(rns, hwnd, message, wparam, lparam);
+        winrt::Microsoft::ReactNative::ReactNotificationService rns(windowData->InstanceSettings().Notifications());
+        winrt::Microsoft::ReactNative::ForwardWindowMessage(rns, hwnd, message, wparam, lparam);
+      }
       break;
     }
   }

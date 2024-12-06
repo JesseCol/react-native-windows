@@ -11,6 +11,7 @@
 #include <UI.Xaml.Controls.h>
 #include <Utils/ValueUtils.h>
 #include <winrt/Microsoft.UI.Content.h>
+#include <winrt/Microsoft.UI.Input.h>
 #include <winrt/Windows.UI.Composition.h>
 #include "CompositionContextHelper.h"
 #include "RootComponentView.h"
@@ -49,6 +50,11 @@ void ContentIslandComponentView::OnMounted() noexcept {
       winrt::Microsoft::ReactNative::Composition::Experimental::CompositionContextHelper::InnerVisual(Visual())
           .as<winrt::Microsoft::UI::Composition::ContainerVisual>());
   m_childSiteLink.ActualSize({m_layoutMetrics.frame.size.width, m_layoutMetrics.frame.size.height});
+
+  // Setting this option before connecting the child content seems to be important to ensure the UIA tree
+  // is correctly set up.
+  m_childSiteLink.AutomationOption(winrt::Microsoft::UI::Content::AutomationOptions::NavigatableFragment);
+
   if (m_islandToConnect) {
     m_childSiteLink.Connect(m_islandToConnect);
     m_islandToConnect = nullptr;
@@ -72,6 +78,7 @@ void ContentIslandComponentView::OnMounted() noexcept {
 
 void ContentIslandComponentView::OnUnmounted() noexcept {
   m_layoutMetricChangedRevokers.clear();
+  m_uiaProvider = nullptr;
 }
 
 void ContentIslandComponentView::ParentLayoutChanged() noexcept {
@@ -148,6 +155,18 @@ winrt::IInspectable ContentIslandComponentView::EnsureUiaProvider() noexcept {
           *get_strong(), m_childContentLink);
   }
   return m_uiaProvider;
+}
+
+bool ContentIslandComponentView::focusable() const noexcept {
+  /* TODO: Check to see if we actually have focusable content in the ContentIsland.
+  if (m_childContentLink) {
+    auto navigationHost = winrt::Microsoft::UI::Input::InputFocusNavigationHost::GetForSiteBridge(m_childContentLink);
+    auto request = winrt::Microsoft::UI::Input::FocusNavigationRequest::Create(
+        winrt::Microsoft::UI::Input::FocusNavigationReason::First);
+    navigationHost.NavigateFocus(request);
+  }
+  */
+  return true;
 }
 
 } // namespace winrt::Microsoft::ReactNative::Composition::implementation

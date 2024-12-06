@@ -85,6 +85,10 @@ const Components: Array<RNTesterModuleInfo> = [
     module: require('../examples-win/NativeComponents/NativeComponentYoga'),
   },
   {
+    key: 'Xaml Content',
+    module: require('../examples-win/NativeComponents/XamlContent'),
+  },
+  {
     key: 'NewAppScreenExample',
     module: require('../examples/NewAppScreen/NewAppScreenExample'),
   },

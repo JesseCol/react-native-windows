@@ -36,7 +36,9 @@ CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
 
   // TODO: We need to revoke these event handlers when we're done.  
   
-  m_childContentLink.AutomationOption(winrt::Microsoft::UI::Content::AutomationOptions::NavigatableFragment);
+  // These events are raised in response to the child ContentIsland asking for providers.
+  // For example, the ContentIsland.FragmentRootAutomationProvider property will return
+  // the provider we provide here in FragmentRootAutomationProviderRequested.
   m_childContentLink.FragmentRootAutomationProviderRequested(
       [this](
           const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &sender,
@@ -52,21 +54,24 @@ CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
       });
 
   m_childContentLink.ParentAutomationProviderRequested(
-      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
-         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
-          // TODO
+      [this](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
+        args.AutomationProvider(*this);
+          args.Handled(true);
       });
 
   m_childContentLink.NextSiblingAutomationProviderRequested(
       [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
-         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
-          // TODO
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
+          args.AutomationProvider(nullptr);
+          args.Handled(true);
       });
 
   m_childContentLink.PreviousSiblingAutomationProviderRequested(
       [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
-         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &) {
-        // TODO
+         const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
+          args.AutomationProvider(nullptr);
+          args.Handled(true);
       });
 
 

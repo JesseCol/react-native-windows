@@ -180,6 +180,7 @@ bool RootComponentView::TryMoveFocus(bool next) noexcept {
                      : winrt::Microsoft::ReactNative::FocusNavigationDirection::Previous);
       };
 
+  // Find the next focusable element in the tree
   if (winrt::Microsoft::ReactNative::implementation::walkTree(m_focusedComponent, next, fn)) {
     return true;
   }
