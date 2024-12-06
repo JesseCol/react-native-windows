@@ -36,6 +36,8 @@ struct ContentIslandComponentView : ContentIslandComponentViewT<ContentIslandCom
       facebook::react::LayoutMetrics const &oldLayoutMetrics) noexcept;
 
   void prepareForRecycle() noexcept override;
+  
+  bool focusable() const noexcept override;
 
   winrt::IInspectable EnsureUiaProvider() noexcept override;
 
