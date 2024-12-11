@@ -747,12 +747,12 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   auto playgroundApp{winrt::make<winrt::Playground::implementation::App>()};
 
   // Use Xaml's Compositor for now.  We will remove this before we ship.
-  g_liftedCompositor =
-      winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
-#else
-  g_liftedCompositor = winrt::Microsoft::UI::Composition::Compositor();
+  //g_liftedCompositor =
+  //    winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
 #endif
 
+
+  g_liftedCompositor = winrt::Microsoft::UI::Composition::Compositor();
 
   return RunPlayground(showCmd, false);
 }
