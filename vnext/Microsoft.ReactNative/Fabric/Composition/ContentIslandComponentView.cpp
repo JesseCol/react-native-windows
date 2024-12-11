@@ -46,7 +46,7 @@ void ContentIslandComponentView::OnMounted() noexcept {
 
   // Setting this option before connecting the child content seems to be important to ensure the UIA tree
   // is correctly set up.
-  m_childContentLink.AutomationOption(winrt::Microsoft::UI::Content::AutomationOptions::NavigatableFragment);
+  m_childContentLink.AutomationTreeOption(winrt::Microsoft::UI::Content::AutomationTreeOptions::FragmentBased);
 
   if (m_islandToConnect) {
     m_childContentLink.Connect(m_islandToConnect);
@@ -84,8 +84,10 @@ void ContentIslandComponentView::ParentLayoutChanged() noexcept {
     if (auto strongThis = wkThis.get()) {
       auto clientRect = strongThis->getClientRect();
 
-      strongThis->m_childContentLink.OffsetOverride(
-          {static_cast<float>(clientRect.left), static_cast<float>(clientRect.top)});
+      strongThis->m_childContentLink
+          .LocalToParentTransformMatrix(
+              winrt::Windows::Foundation::Numerics::make_float3x2_translation(static_cast<float>(clientRect.left), static_cast<float>(clientRect.top)));
+
       strongThis->m_layoutChangePosted = false;
     }
   });
