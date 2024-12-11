@@ -32,9 +32,9 @@
       },
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -87,9 +87,9 @@
     "native,Version=v0.0/win10-arm": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -104,9 +104,9 @@
     "native,Version=v0.0/win10-arm-aot": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -121,9 +121,9 @@
     "native,Version=v0.0/win10-arm64-aot": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -138,9 +138,9 @@
     "native,Version=v0.0/win10-x64": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -155,9 +155,9 @@
     "native,Version=v0.0/win10-x64-aot": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -172,9 +172,9 @@
     "native,Version=v0.0/win10-x86": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
@@ -189,9 +189,9 @@
     "native,Version=v0.0/win10-x86-aot": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241205.1846-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241205.1846-x64-Debug",
-        "contentHash": "2XlTA/nnDNmeqaGQj+k+XUyWUUhNUrpoEnGCN7BzIGTv1pd3bcFbjrZDm0c3RpUzGIyFl1VB03ObUyjecb2TYg==",
+        "requested": "[999.0.0-mock-11.241211.1351-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241211.1351-x64-Debug",
+        "contentHash": "hzzeqfOsybD0lxOjvENcSAYhGm85lDrk3aO8Y0OYzagYUNZffj58QZwNiNE5uvNGOsowOXPCPBg8HR1/tz+Dog==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
