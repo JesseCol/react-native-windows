@@ -18,6 +18,15 @@ if (!$?) {
     exit 1
 }
 
+popd
+
+Write-Host "Pushing WinAppSDK package to WinUI-Test feed"
+nuget push -Source WinUI-Test "microsoft-ui-xaml-lift\PackageStore\Microsoft.WindowsAppSDK.$winAppSdkPackageVersion.nupkg" -ApiKey AzDepOps
+if (!$?) {
+    Write-Error "Failed to push WinAppSDK package."
+    exit 1
+}
+
 Write-Host "Updating playground-composition.sln with WinAppSDK package version $winAppSdkPackageVersion"
 
 $propsFile = "$PSScriptRoot\vnext\PropertySheets\WinUI.props"
@@ -34,5 +43,3 @@ if (!$?) {
 
 Write-Host "New version: $version" -ForegroundColor Green
 Write-Host "New WinAppSDK package Version: $winAppSdkPackageVersion" -ForegroundColor Green
-
-popd
