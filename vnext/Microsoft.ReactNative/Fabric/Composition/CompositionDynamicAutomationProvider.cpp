@@ -30,18 +30,18 @@ CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
 
 CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
       const winrt::Microsoft::ReactNative::Composition::ComponentView &componentView,
-      const winrt::Microsoft::UI::Content::ChildContentLink &childContentLink) noexcept
+      const winrt::Microsoft::UI::Content::ChildSiteLink &childSiteLink) noexcept
       : m_view{componentView}
-      , m_childContentLink{childContentLink} {
+      , m_childSiteLink{childSiteLink} {
 
   // TODO: We need to revoke these event handlers when we're done.  
   
   // These events are raised in response to the child ContentIsland asking for providers.
   // For example, the ContentIsland.FragmentRootAutomationProvider property will return
   // the provider we provide here in FragmentRootAutomationProviderRequested.
-  m_childContentLink.FragmentRootAutomationProviderRequested(
+  m_childSiteLink.FragmentRootAutomationProviderRequested(
       [this](
-          const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &sender,
+          const winrt::Microsoft::UI::Content::IContentSiteAutomation &sender,
           const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
 
         // The child island's fragment tree doesn't have its own root.
@@ -53,22 +53,22 @@ CompositionDynamicAutomationProvider::CompositionDynamicAutomationProvider(
         (void)sender;
       });
 
-  m_childContentLink.ParentAutomationProviderRequested(
-      [this](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+  m_childSiteLink.ParentAutomationProviderRequested(
+      [this](const winrt::Microsoft::UI::Content::IContentSiteAutomation &,
          const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
         args.AutomationProvider(*this);
           args.Handled(true);
       });
 
-  m_childContentLink.NextSiblingAutomationProviderRequested(
-      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+  m_childSiteLink.NextSiblingAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteAutomation &,
          const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
           args.AutomationProvider(nullptr);
           args.Handled(true);
       });
 
-  m_childContentLink.PreviousSiblingAutomationProviderRequested(
-      [](const winrt::Microsoft::UI::Content::IContentSiteBridgeAutomation &,
+  m_childSiteLink.PreviousSiblingAutomationProviderRequested(
+      [](const winrt::Microsoft::UI::Content::IContentSiteAutomation &,
          const winrt::Microsoft::UI::Content::ContentSiteAutomationProviderRequestedEventArgs &args) {
           args.AutomationProvider(nullptr);
           args.Handled(true);
@@ -83,9 +83,9 @@ HRESULT __stdcall CompositionDynamicAutomationProvider::Navigate(
   if (pRetVal == nullptr)
     return E_POINTER;
 
-  if (m_childContentLink) {
+  if (m_childSiteLink) {
     if (direction == NavigateDirection_FirstChild || direction == NavigateDirection_LastChild) {      
-      auto fragment = m_childContentLink.AutomationProvider().try_as<IRawElementProviderFragment>();
+      auto fragment = m_childSiteLink.AutomationProvider().try_as<IRawElementProviderFragment>();
       *pRetVal = fragment.detach();
       return S_OK;
     }

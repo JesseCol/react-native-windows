@@ -90,9 +90,13 @@ void ContentIslandComponentView::ParentLayoutChanged() noexcept {
   ReactContext().UIDispatcher().Post([wkThis = get_weak()]() {
     if (auto strongThis = wkThis.get()) {
       auto clientRect = strongThis->getClientRect();
+
       strongThis->m_childSiteLink
           .LocalToParentTransformMatrix(
-              winrt::Windows::Foundation::Numerics::make_float3x2_translation(static_cast<float>(clientRect.left), static_cast<float>(clientRect.top)));
+              winrt::Windows::Foundation::Numerics::make_float4x4_translation(
+                static_cast<float>(clientRect.left),
+                static_cast<float>(clientRect.top),
+                0.0f));
 
       strongThis->m_layoutChangePosted = false;
     }
@@ -151,15 +155,15 @@ winrt::IInspectable ContentIslandComponentView::EnsureUiaProvider() noexcept {
   if (m_uiaProvider == nullptr) {
     m_uiaProvider =
         winrt::make<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>(
-          *get_strong(), m_childContentLink);
+          *get_strong(), m_childSiteLink);
   }
   return m_uiaProvider;
 }
 
 bool ContentIslandComponentView::focusable() const noexcept {
   /* TODO: Check to see if we actually have focusable content in the ContentIsland.
-  if (m_childContentLink) {
-    auto navigationHost = winrt::Microsoft::UI::Input::InputFocusNavigationHost::GetForSiteBridge(m_childContentLink);
+  if (m_childSiteLink) {
+    auto navigationHost = winrt::Microsoft::UI::Input::InputFocusNavigationHost::GetForSiteBridge(m_childSiteLink);
     auto request = winrt::Microsoft::UI::Input::FocusNavigationRequest::Create(
         winrt::Microsoft::UI::Input::FocusNavigationReason::First);
     navigationHost.NavigateFocus(request);

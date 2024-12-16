@@ -6,9 +6,9 @@
       Internal versions are located at: https://microsoft.visualstudio.com/DefaultCollection/ProjectReunion/_artifacts/feed/Project.Reunion.nuget.internal/NuGet/Microsoft.WindowsAppSDK/versions
       For local testing of internal versions, modify WinUI3ExperimentalVersion, and comment out the addition nuget source in NuGet.Config
     -->
-    <WinUI3ExperimentalVersion Condition="'$(WinUI3ExperimentalVersion)'==''">1.7.250109001-experimental2</WinUI3ExperimentalVersion>
-    <!-- This value is also used by the CLI, see /packages/@react-native-windows/cli/.../autolinkWindows.ts -->
-    <WinUI3Version Condition="'$(WinUI3Version)'=='' AND '$(UseExperimentalWinUI3)'=='true'">$(WinUI3ExperimentalVersion)</WinUI3Version>
+    <!-- This value is also used by the CLI, see /packages/@react-native-windows/generate-windows -->
+    <WinUI3ExpVersion>999.0.0-mock-11.241215.1841-x64-Debug</WinUI3ExpVersion>
+    <WinUI3Version Condition="'$(WinUI3Version)'=='' AND '$(UseExperimentalWinUI3)'=='true'">$(WinUI3ExpVersion)</WinUI3Version>
     <WinUI3Version Condition="'$(WinUI3Version)'==''">1.6.240923002</WinUI3Version>
 
     <!-- 

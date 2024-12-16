@@ -27,7 +27,7 @@ class CompositionDynamicAutomationProvider : public winrt::implements<
 
   CompositionDynamicAutomationProvider(
       const winrt::Microsoft::ReactNative::Composition::ComponentView &componentView,
-      const winrt::Microsoft::UI::Content::ChildContentLink &childContentLink) noexcept;
+      const winrt::Microsoft::UI::Content::ChildSiteLink &childContentLink) noexcept;
 
   // inherited via IRawElementProviderFragment
   virtual HRESULT __stdcall Navigate(NavigateDirection direction, IRawElementProviderFragment **pRetVal) override;
@@ -90,7 +90,7 @@ class CompositionDynamicAutomationProvider : public winrt::implements<
  private:
   ::Microsoft::ReactNative::ReactTaggedView m_view;
   std::vector<winrt::com_ptr<IRawElementProviderSimple>> m_selectionItems;
-  winrt::Microsoft::UI::Content::ChildContentLink m_childContentLink{nullptr};
+  winrt::Microsoft::UI::Content::ChildSiteLink m_childSiteLink{nullptr};
 };
 
 } // namespace winrt::Microsoft::ReactNative::implementation
