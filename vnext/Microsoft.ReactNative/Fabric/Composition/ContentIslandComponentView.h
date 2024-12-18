@@ -36,10 +36,12 @@ struct ContentIslandComponentView : ContentIslandComponentViewT<ContentIslandCom
       facebook::react::LayoutMetrics const &oldLayoutMetrics) noexcept;
 
   void prepareForRecycle() noexcept override;
-  
+
   bool focusable() const noexcept override;
 
   winrt::IInspectable EnsureUiaProvider() noexcept override;
+
+  void onGotFocus(const winrt::Microsoft::ReactNative::Composition::Input::RoutedEventArgs &args) noexcept override;
 
   ContentIslandComponentView(
       const winrt::Microsoft::ReactNative::Composition::Experimental::ICompositionContext &compContext,
@@ -60,6 +62,7 @@ struct ContentIslandComponentView : ContentIslandComponentViewT<ContentIslandCom
   std::vector<winrt::Microsoft::ReactNative::ComponentView::LayoutMetricsChanged_revoker> m_layoutMetricChangedRevokers;
 #ifdef USE_EXPERIMENTAL_WINUI3
   winrt::Microsoft::UI::Content::ChildSiteLink m_childSiteLink{nullptr};
+  winrt::Microsoft::UI::Input::InputFocusNavigationHost m_navigationHost{nullptr};
 #endif
 };
 
