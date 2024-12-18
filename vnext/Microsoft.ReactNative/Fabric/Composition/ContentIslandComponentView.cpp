@@ -51,6 +51,16 @@ void ContentIslandComponentView::OnMounted() noexcept {
           .as<winrt::Microsoft::UI::Composition::ContainerVisual>());
   m_childSiteLink.ActualSize({m_layoutMetrics.frame.size.width, m_layoutMetrics.frame.size.height});
 
+  m_navigationHost = winrt::Microsoft::UI::Input::InputFocusNavigationHost::GetForSiteLink(m_childSiteLink);
+
+  m_navigationHost.DepartFocusRequested([wkThis = get_weak()](const auto &sender, const auto &args) {
+    if (auto strongThis = wkThis.get()) {
+      const bool next = (args.Request().Reason() == winrt::Microsoft::UI::Input::FocusNavigationReason::First);
+      strongThis->rootComponentView()->TryMoveFocus(next);
+      args.Result(winrt::Microsoft::UI::Input::FocusNavigationResult::Moved);
+    }
+  });
+
   // Setting this option before connecting the child content seems to be important to ensure the UIA tree
   // is correctly set up.
   m_childSiteLink.AutomationTreeOption(winrt::Microsoft::UI::Content::AutomationTreeOptions::FragmentBased);
@@ -91,12 +101,9 @@ void ContentIslandComponentView::ParentLayoutChanged() noexcept {
     if (auto strongThis = wkThis.get()) {
       auto clientRect = strongThis->getClientRect();
 
-      strongThis->m_childSiteLink
-          .LocalToParentTransformMatrix(
-              winrt::Windows::Foundation::Numerics::make_float4x4_translation(
-                static_cast<float>(clientRect.left),
-                static_cast<float>(clientRect.top),
-                0.0f));
+      strongThis->m_childSiteLink.LocalToParentTransformMatrix(
+          winrt::Windows::Foundation::Numerics::make_float4x4_translation(
+              static_cast<float>(clientRect.left), static_cast<float>(clientRect.top), 0.0f));
 
       strongThis->m_layoutChangePosted = false;
     }
@@ -153,9 +160,8 @@ void ContentIslandComponentView::prepareForRecycle() noexcept {
 
 winrt::IInspectable ContentIslandComponentView::EnsureUiaProvider() noexcept {
   if (m_uiaProvider == nullptr) {
-    m_uiaProvider =
-        winrt::make<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>(
-          *get_strong(), m_childSiteLink);
+    m_uiaProvider = winrt::make<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>(
+        *get_strong(), m_childSiteLink);
   }
   return m_uiaProvider;
 }
@@ -170,6 +176,12 @@ bool ContentIslandComponentView::focusable() const noexcept {
   }
   */
   return true;
+}
+
+void ContentIslandComponentView::onGotFocus(
+    const winrt::Microsoft::ReactNative::Composition::Input::RoutedEventArgs &args) noexcept {
+  m_navigationHost.NavigateFocus(winrt::Microsoft::UI::Input::FocusNavigationRequest::Create(
+      winrt::Microsoft::UI::Input::FocusNavigationReason::First));
 }
 
 } // namespace winrt::Microsoft::ReactNative::Composition::implementation
