@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 # Build a version string 11.<date>.<time>
-$version = "11." + (Get-Date -Format "yyMMdd.HHmm")
+$version = "11." + (Get-Date -Format "yyMMdd.Hmm")
 $winAppSdkPackageVersion = "999.0.0-mock-$($version)-x64-Debug"
 Write-Host "Version: $version"
 Write-Host "WinAppSDK package Version: $winAppSdkPackageVersion"
