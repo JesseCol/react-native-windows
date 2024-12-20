@@ -34,9 +34,9 @@
       },
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[999.0.0-mock-11.241215.1841-x64-Debug, )",
-        "resolved": "999.0.0-mock-11.241215.1841-x64-Debug",
-        "contentHash": "w5v/MKITv+RNPFRVe7rrx+LIMuFrmIe4EJusOsjMhv7/ZQAAVJ/uBaMucV+641zceQ9JTS1nzYLKy5K/SD16BQ==",
+        "requested": "[999.0.0-mock-11.241218.1455-x64-Debug, )",
+        "resolved": "999.0.0-mock-11.241218.1455-x64-Debug",
+        "contentHash": "LZhOjrW1KdvgFEh6l4TcGyb7pvMnXTIF6f0LiCPftl95jxcELuB5MVrQWPd+6A3NSiO8p/tN0jy6qdiR5M02hg==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.2792.45",
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
