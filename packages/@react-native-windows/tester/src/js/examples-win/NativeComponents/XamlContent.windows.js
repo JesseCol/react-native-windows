@@ -8,7 +8,7 @@
  * @flow
  */
 
-// <XamlCalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}} /> 
+// <XamlCalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}} />
 
 'use strict';
 
@@ -20,8 +20,9 @@ import XamlCalendarView from './XamlCalendarViewNativeComponent';
 const XamlContentExample = () => {
   let [log, setLog] = useState('');
 
-  let colorPickerXaml = '<ColorPicker ColorSpectrumShape="Box" IsMoreButtonVisible="False" IsColorSliderVisible="True" IsColorChannelTextInputVisible="True" IsHexInputVisible="True" IsAlphaEnabled="False" IsAlphaSliderVisible="True" IsAlphaTextInputVisible="True" />'
-  let datePickerXaml = '<DatePicker />'
+  let colorPickerXaml =
+    '<ColorPicker ColorSpectrumShape="Box" IsMoreButtonVisible="False" IsColorSliderVisible="True" IsColorChannelTextInputVisible="True" IsHexInputVisible="True" IsAlphaEnabled="False" IsAlphaSliderVisible="True" IsAlphaTextInputVisible="True" />';
+  let datePickerXaml = '<DatePicker />';
 
   function onButtonPress(buttonName: string) {
     Alert.alert(`Button clicked: ${buttonName}!`);
@@ -29,29 +30,38 @@ const XamlContentExample = () => {
 
   return (
     <ScrollView>
-    <View
-      style={{
-        margin: 20,
-        flexDirection: 'column',
-        gap: 10,
-      }}>
-        <Button title="Before Button"
-        onPress={() => onButtonPress('before')}
-        style={{flex: 1}}
+      <View
+        style={{
+          margin: 20,
+          flexDirection: 'column',
+          gap: 10,
+        }}>
+        <Button
+          title="Before Button"
+          onPress={() => onButtonPress('before')}
+          style={{flex: 1}}
         />
 
-      <Text>Xaml CalendarView control:</Text>
-      
-      <XamlCalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}} /> 
+        <Text>Xaml CalendarView control:</Text>
 
-<Text>After CalendarView</Text>
+        <XamlCalendarView
+          style={{
+            flex: 1,
+            width: 400,
+            height: 400,
+            minWidth: 400,
+            minHeight: 400,
+          }}
+        />
 
-      <Button title="After Button" 
-      onPress={() => onButtonPress('after')}
-      style={{flex: 1}}
-      />
+        <Text>After CalendarView</Text>
 
-    </View>
+        <Button
+          title="After Button"
+          onPress={() => onButtonPress('after')}
+          style={{flex: 1}}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -61,8 +71,7 @@ exports.framework = 'React';
 exports.category = 'UI';
 exports.title = 'Xaml content in a React Native app';
 //exports.documentationURL = 'https://reactnative.dev/docs/button';
-exports.description =
-  'Components implemented using Xaml';
+exports.description = 'Components implemented using Xaml';
 
 exports.examples = [
   {

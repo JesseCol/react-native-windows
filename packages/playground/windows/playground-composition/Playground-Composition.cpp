@@ -31,8 +31,8 @@
 #include <winrt/Microsoft.UI.Composition.interop.h>
 #include <winrt/Microsoft.UI.Content.h>
 #include <winrt/Microsoft.UI.Windowing.h>
-#include <winrt/Microsoft.UI.interop.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.interop.h>
 
 // Includes from sample-custom-component
 #include <winrt/SampleCustomComponent.h>
@@ -747,10 +747,9 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   auto playgroundApp{winrt::make<winrt::Playground::implementation::App>()};
 
   // Use Xaml's Compositor for now.  We will remove this before we ship.
-  //g_liftedCompositor =
+  // g_liftedCompositor =
   //    winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
 #endif
-
 
   g_liftedCompositor = winrt::Microsoft::UI::Composition::Compositor();
 
