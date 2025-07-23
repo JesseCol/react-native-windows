@@ -12,10 +12,16 @@ struct CalendarView : public winrt::implements<CalendarView, winrt::Microsoft::R
                     public Codegen::BaseCalendarView<CalendarView> {
 
   winrt::Microsoft::UI::Xaml::UIElement GetXamlElement() {
-    if (m_calendarView == nullptr) {
-      CreateXamlCalendarView();
+    // if (m_calendarView == nullptr) {
+    //   CreateXamlCalendarView();
+    // }
+    // return m_calendarView;
+
+    if (m_datePicker == nullptr) {
+      CreateXamlDatePicker();
     }
-    return m_calendarView;
+    return m_stackPanel;
+
   }
 
   void UpdateProps(
@@ -28,6 +34,27 @@ struct CalendarView : public winrt::implements<CalendarView, winrt::Microsoft::R
       m_calendarView.DisplayMode(static_cast<winrt::Microsoft::UI::Xaml::Controls::CalendarViewDisplayMode>(
           newProps->displayMode));
     }
+  }
+
+  void CreateXamlDatePicker() {
+    m_datePicker = winrt::Microsoft::UI::Xaml::Controls::ComboBox();
+
+    // Add 10 items to the ComboBox
+    for (int i = 0; i < 50; i++) {
+      winrt::Microsoft::UI::Xaml::Controls::ComboBoxItem item;
+      item.Content(winrt::box_value(L"Item " + winrt::to_hstring(i)));
+      m_datePicker.Items().Append(item);
+    }
+
+    m_datePicker.Margin(winrt::Microsoft::UI::Xaml::Thickness(10, 10, 10, 10));
+
+    m_stackPanel = winrt::Microsoft::UI::Xaml::Controls::StackPanel();
+    m_stackPanel.Children().Append(m_datePicker);
+
+    if (Props()) {
+    }
+    //m_datePicker.DateChanged([this](auto &&, auto &&) {
+    //});
   }
 
   void CreateXamlCalendarView() {
@@ -64,6 +91,8 @@ struct CalendarView : public winrt::implements<CalendarView, winrt::Microsoft::R
 
   private:
     winrt::Microsoft::UI::Xaml::Controls::CalendarView m_calendarView{ nullptr };
+    winrt::Microsoft::UI::Xaml::Controls::ComboBox m_datePicker{ nullptr };
+    winrt::Microsoft::UI::Xaml::Controls::StackPanel m_stackPanel{ nullptr };
 };
 
 

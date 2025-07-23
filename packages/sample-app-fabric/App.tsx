@@ -85,8 +85,10 @@ function App(): React.JSX.Element {
             I'll try showing a CalendarView here (displayMode=1 for month view).
           </Section>
 
+          {/*  */}
+
           <CalendarView
-            style={{width: 400, height: 400}}
+            style={{width: 300, height: 100}}
             displayMode="1"
             onSelectedDatesChanged={e => {
               setSelectedDate(e.nativeEvent.startDate);

@@ -79,6 +79,17 @@
           "boost": "[1.83.0, )"
         }
       },
+      "microsoft.reactnative.xaml": {
+        "type": "Project",
+        "dependencies": {
+          "Common": "[1.0.0, )",
+          "Folly": "[1.0.0, )",
+          "Microsoft.ReactNative": "[1.0.0, )",
+          "Microsoft.UI.Xaml": "[2.8.0, )",
+          "ReactCommon": "[1.0.0, )",
+          "boost": "[1.83.0, )"
+        }
+      },
       "reactcommon": {
         "type": "Project",
         "dependencies": {
