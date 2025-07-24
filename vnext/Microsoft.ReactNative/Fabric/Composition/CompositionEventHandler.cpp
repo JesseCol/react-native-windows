@@ -1160,6 +1160,8 @@ void CompositionEventHandler::onPointerPressed(
     m_activeTouches.emplace(pointerId, activeTouch);
 
     DispatchTouchEvent(eventType, pointerId, pointerPoint, keyModifiers);
+
+    RootComponentView().DoLightDismiss();
   }
 }
 

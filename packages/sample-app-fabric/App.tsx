@@ -8,6 +8,7 @@
 import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -85,8 +86,15 @@ function App(): React.JSX.Element {
             I'll try showing a CalendarView here (displayMode=1 for month view).
           </Section>
 
-          {/*  */}
+          <Button
+            title="Calendar Action"
+            onPress={() => {
+              console.log('Button pressed!');
+            }}
+          />
 
+          {/*
+           */}
           <CalendarView
             style={{width: 300, height: 100}}
             displayMode="1"

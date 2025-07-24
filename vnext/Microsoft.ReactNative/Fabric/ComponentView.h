@@ -195,6 +195,12 @@ struct ComponentView
       winrt::Windows::Foundation::EventHandler<winrt::Microsoft::ReactNative::ComponentView> const &handler) noexcept;
   void PointerCaptureLost(winrt::event_token const &token) noexcept;
 
+  winrt::event_token LightDismiss(
+      winrt::Windows::Foundation::EventHandler<winrt::Microsoft::ReactNative::ComponentView> const &handler) noexcept;
+  void LightDismiss(winrt::event_token const &token) noexcept;
+
+  void DoLightDismiss() noexcept;
+
   LayoutMetrics LayoutMetrics() const noexcept;
 
   bool TryFocus() noexcept;
@@ -312,6 +318,9 @@ struct ComponentView
   winrt::event<
       winrt::Windows::Foundation::EventHandler<winrt::Microsoft::ReactNative::Composition::Input::RoutedEventArgs>>
       m_gotFocusEvent;
+
+  winrt::event<winrt::Windows::Foundation::EventHandler<winrt::Microsoft::ReactNative::ComponentView>>
+      m_lightDismissEvent;
 };
 
 // Run fn on all nodes of the component view tree starting from this one until fn returns true

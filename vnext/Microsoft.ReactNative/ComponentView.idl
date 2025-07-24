@@ -113,6 +113,11 @@ namespace Microsoft.ReactNative
     event Windows.Foundation.EventHandler<Microsoft.ReactNative.Composition.Input.PointerRoutedEventArgs> PointerEntered;
     event Windows.Foundation.EventHandler<Microsoft.ReactNative.Composition.Input.PointerRoutedEventArgs> PointerExited;
     event Windows.Foundation.EventHandler<ComponentView> PointerCaptureLost;
+
+    // Proposed API so that native components in other frameworks like WinUI3 are informed when
+    // they should dismiss any light-dismissable UI.  This event is kuldgy right now, it's invoked
+    // whenever a pointer click happens.
+    event Windows.Foundation.EventHandler<ComponentView> LightDismiss;
     
     event Windows.Foundation.EventHandler<ComponentView> Destroying;
     event Windows.Foundation.EventHandler<LayoutMetricsChangedArgs> LayoutMetricsChanged;

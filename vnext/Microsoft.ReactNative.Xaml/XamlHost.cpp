@@ -27,10 +27,23 @@ struct XamlHostComponentView : public winrt::implements<XamlHostComponentView, w
 
     // m_xamlIsland.Content(m_XamlHost);
     islandView.Connect(m_xamlIsland.ContentIsland());
+
+    // We have a limitation now in RNW + WinUI3 where we don't yet have a light-dismiss API.
+    // The workaround for now is to close all popups when the light-dismiss event is fired.
+    // This is a temporary workaround until we have a better solution.
+    // TODO: Unregister the event handler.
+    islandView.LightDismiss([this](auto&&, auto&&) {
+      // Just close all the popups for this island.  This seems very "rude" but seems to work OK
+      // in practice.
+      auto popups = winrt::Microsoft::UI::Xaml::Media::VisualTreeHelper::GetOpenPopupsForXamlRoot(m_xamlIsland.Content().XamlRoot());
+      for (auto popup : popups) {
+        popup.IsOpen(false);
+      }
+    });
   }
 
   void MountChildComponentView(
-      const winrt::Microsoft::ReactNative::ComponentView & /*view*/,
+      const winrt::Microsoft::ReactNative::ComponentView & view,
       const winrt::Microsoft::ReactNative::MountChildComponentViewArgs &args) noexcept override {
     // Add the xaml child to the m_xamlIsland here.
     auto childXamlControl = args.Child().UserData().as<winrt::Microsoft::ReactNative::Xaml::IXamlControl>();

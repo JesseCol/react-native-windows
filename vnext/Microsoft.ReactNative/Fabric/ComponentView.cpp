@@ -341,6 +341,15 @@ bool ComponentView::runOnChildren(
   return false;
 }
 
+void ComponentView::DoLightDismiss() noexcept {
+  m_lightDismissEvent(*this, nullptr);
+
+  // Loop over children and do light dismiss on them
+  for (auto it = m_children.begin(); it != m_children.end(); ++it) {
+    winrt::get_self<winrt::Microsoft::ReactNative::implementation::ComponentView>(*it)->DoLightDismiss();
+  } 
+}
+
 RECT ComponentView::getClientRect() const noexcept {
   assert(false);
   return {};
@@ -535,6 +544,15 @@ winrt::event_token ComponentView::PointerCaptureLost(
 
 void ComponentView::PointerCaptureLost(winrt::event_token const &token) noexcept {
   m_pointerCaptureLostEvent.remove(token);
+}
+
+winrt::event_token ComponentView::LightDismiss(
+    winrt::Windows::Foundation::EventHandler<winrt::Microsoft::ReactNative::ComponentView> const &handler) noexcept {
+  return m_lightDismissEvent.add(handler);
+}
+
+void ComponentView::LightDismiss(winrt::event_token const &token) noexcept {
+  m_lightDismissEvent.remove(token);
 }
 
 void ComponentView::OnPointerEntered(
