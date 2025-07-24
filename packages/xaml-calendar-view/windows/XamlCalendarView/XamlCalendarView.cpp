@@ -17,7 +17,7 @@ struct CalendarView : public winrt::implements<CalendarView, winrt::Microsoft::R
     // }
     // return m_calendarView;
 
-    if (m_datePicker == nullptr) {
+    if (m_comboBox == nullptr) {
       CreateXamlDatePicker();
     }
     return m_stackPanel;
@@ -37,23 +37,29 @@ struct CalendarView : public winrt::implements<CalendarView, winrt::Microsoft::R
   }
 
   void CreateXamlDatePicker() {
-    m_datePicker = winrt::Microsoft::UI::Xaml::Controls::ComboBox();
+    m_comboBox = winrt::Microsoft::UI::Xaml::Controls::ComboBox();
+    m_datePicker = winrt::Microsoft::UI::Xaml::Controls::DatePicker();
 
     // Add 10 items to the ComboBox
     for (int i = 0; i < 50; i++) {
       winrt::Microsoft::UI::Xaml::Controls::ComboBoxItem item;
       item.Content(winrt::box_value(L"Item " + winrt::to_hstring(i)));
-      m_datePicker.Items().Append(item);
+      m_comboBox.Items().Append(item);
     }
 
-    m_datePicker.Margin(winrt::Microsoft::UI::Xaml::Thickness(10, 10, 10, 10));
+    
 
     m_stackPanel = winrt::Microsoft::UI::Xaml::Controls::StackPanel();
+    m_stackPanel.Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal);
+    m_comboBox.Margin(winrt::Microsoft::UI::Xaml::Thickness(10, 10, 10, 10));
+    m_stackPanel.Children().Append(m_comboBox);
+
+    m_datePicker.Margin(winrt::Microsoft::UI::Xaml::Thickness(10, 10, 10, 10));
     m_stackPanel.Children().Append(m_datePicker);
 
     if (Props()) {
     }
-    //m_datePicker.DateChanged([this](auto &&, auto &&) {
+    //m_comboBox.DateChanged([this](auto &&, auto &&) {
     //});
   }
 
@@ -91,8 +97,9 @@ struct CalendarView : public winrt::implements<CalendarView, winrt::Microsoft::R
 
   private:
     winrt::Microsoft::UI::Xaml::Controls::CalendarView m_calendarView{ nullptr };
-    winrt::Microsoft::UI::Xaml::Controls::ComboBox m_datePicker{ nullptr };
+    winrt::Microsoft::UI::Xaml::Controls::ComboBox m_comboBox{ nullptr };
     winrt::Microsoft::UI::Xaml::Controls::StackPanel m_stackPanel{ nullptr };
+    winrt::Microsoft::UI::Xaml::Controls::DatePicker m_datePicker{ nullptr };
 };
 
 

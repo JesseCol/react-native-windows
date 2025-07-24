@@ -93,8 +93,11 @@ function App(): React.JSX.Element {
             }}
           />
 
-          {/*
-           */}
+          {/*  
+            WARNING: This looks like just a CalendarView, but note in this poc code we're using
+            the CalendarView to host a few different Xaml things, see XamlCalendarView.cpp.
+          */}
+
           <CalendarView
             style={{width: 300, height: 100}}
             displayMode="1"

@@ -13,6 +13,10 @@
     <WinUI3Version Condition="'$(WinUI3Version)'==''">1.8.250723001-experimental</WinUI3Version>
     <!-- This is needed to prevent build errors with WinAppSDK >= 1.7 trying to double build WindowsAppRuntimeAutoInitializer.cpp -->
     <WindowsAppSdkAutoInitialize Condition="'$(WindowsAppSdkAutoInitialize)'=='' And $([MSBuild]::VersionGreaterThan('$(WinUI3Version)', '1.7.0'))">false</WindowsAppSdkAutoInitialize>
+
+    <!-- Use WinAppSDK self-contained when using private or locally-built WinAppSDK -->
+    <!-- We need this when we want to try out private builds of microsoft.ui.xaml.dll -->
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
 
   <PropertyGroup Label="WinUI2x versioning">
